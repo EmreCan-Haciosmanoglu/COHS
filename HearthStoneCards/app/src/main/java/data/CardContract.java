@@ -10,7 +10,6 @@ public class CardContract {
     public static final String CONTENT_AUTHORITY = "com.example.m.hearthstonecards";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    //public static final String PATH_WEATHER = "weather";
     public static final String PATH_CARD = "card";
     public static final String PATH_INFO="CardInfoEntry";
 
@@ -18,7 +17,7 @@ public class CardContract {
     public static final class CardEntry implements BaseColumns {
         public static final String TABLE_NAME               = "card";
         public static final String COLUMN_ID                = "id";
-        public static final String COLUMN_InfoID            = "id";
+        public static final String COLUMN_InfoID            = "info_id";
         public static final String COLUMN_TYPE              = "type";
         public static final String COLUMN_RARITY            = "rarity";
         public static final String COLUMN_NAME              = "name";

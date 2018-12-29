@@ -190,19 +190,38 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
 
     }
 
-    public long addLocation(Card card){
+    public long addCard(Card card){
         long locationId;
         Uri insertedUri;
         ContentValues locationValues = new ContentValues();
 
-        locationValues.put(CardContract.CardEntry.COLUMN_ARMOR , card.getArmor());
-        //   .
-        //   .
-        //   .
-        //
-        //
-        //
+        locationValues.put(CardContract.CardEntry.COLUMN_ID , card.getID());
+        locationValues.put(CardContract.CardEntry.COLUMN_InfoID , card.getID());
+        locationValues.put(CardContract.CardEntry.COLUMN_TYPE , card.getType());
+        locationValues.put(CardContract.CardEntry.COLUMN_RARITY , card.getRarity());
+        locationValues.put(CardContract.CardEntry.COLUMN_NAME , card.getName());
+        locationValues.put(CardContract.CardEntry.COLUMN_CARD_CLASS , card.getCardClass());
+        locationValues.put(CardContract.CardEntry.COLUMN_IMG_URL , card.getImgURL());
 
+
+        insertedUri = mResolver.insert(CardContract.CardEntry.CONTENT_URI, locationValues);
+        locationId = ContentUris.parseId(insertedUri);
+        return locationId;
+    }
+
+    public long addInfo(Card card){
+        long locationId;
+        Uri insertedUri;
+        ContentValues locationValues = new ContentValues();
+
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_ID , card.getID());
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_TEXT , card.getText());
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_COST , card.getCost());
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_HEALTH , card.getHealth());
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_ATTACK , card.getAttack());
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_DURABILITY , card.getDurability());
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_ARMOR , card.getArmor());
+        locationValues.put(CardContract.CardInfoEntry.COLUMN_IS_COLLECTIBLE , card.isCollectible());
 
 
         insertedUri = mResolver.insert(CardContract.CardEntry.CONTENT_URI, locationValues);
