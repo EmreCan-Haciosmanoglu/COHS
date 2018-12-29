@@ -54,6 +54,7 @@ class NameViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         constraintLayout.setOnClickListener(this);
     }
     public void setData(int i){
+
         String id=Card.cards.get(i).getID();
         cardName.setText(Card.cards.get(i).getName());
         rowNumber.setText(String.valueOf(i));
