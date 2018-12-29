@@ -13,8 +13,8 @@ public class CardProvider extends ContentProvider
     private CardDBHelper mOpenHelper;
 
     public static final int CARD = 100;
-    public static final int WEATHER_WITH_LOCATION = 101;
-    public static final int WEATHER_WITH_LOCATION_AND_DATE = 102;
+    //public static final int WEATHER_WITH_LOCATION = 101;
+    //public static final int WEATHER_WITH_LOCATION_AND_DATE = 102;
     public static final int CARDINFO = 300;
 
 
@@ -38,9 +38,15 @@ public class CardProvider extends ContentProvider
 
     @Override
     public String getType(Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data
-        // at the given URI.
-        throw new UnsupportedOperationException("Not yet implemented");
+        final int match = sUriMatcher.match(uri);
+        switch (match){
+            //case WEATHER_WITH_LOCATION_AND_DATE: return CardContract.CardInfoEntry.CONTENT_ITEM_TYPE;
+            //case WEATHER_WITH_LOCATION : return CardContract.CardInfoEntry.CONTENT_TYPE;
+            case CARD : return CardContract.CardEntry.CONTENT_TYPE;
+            case CARDINFO : return CardContract.CardInfoEntry.CONTENT_TYPE;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: "+ uri);
+        }
     }
 
     @Override
