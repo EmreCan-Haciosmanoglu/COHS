@@ -7,28 +7,24 @@ import android.provider.BaseColumns;
 
 public class CardContract {
 
-    public static final String CONTENT_AUTHORITY = "tr.com.mskr.sunshine22";//????
+    public static final String CONTENT_AUTHORITY = "com.example.m.hearthstonecards";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     //public static final String PATH_WEATHER = "weather";
     public static final String PATH_CARD = "card";
+    public static final String PATH_INFO="CardInfoEntry";
 
 
     public static final class CardEntry implements BaseColumns {
         public static final String TABLE_NAME               = "card";
         public static final String COLUMN_ID                = "id";
+        public static final String COLUMN_InfoID            = "id";
         public static final String COLUMN_TYPE              = "type";
         public static final String COLUMN_RARITY            = "rarity";
         public static final String COLUMN_NAME              = "name";
         public static final String COLUMN_CARD_CLASS        = "card_class";
         public static final String COLUMN_IMG_URL           = "img_url";
-        public static final String COLUMN_TEXT              = "text";
-        public static final String COLUMN_COST              = "cost";
-        public static final String COLUMN_HEALTH            = "health";
-        public static final String COLUMN_ATTACK            = "attack";
-        public static final String COLUMN_DURABILITY        = "durability";
-        public static final String COLUMN_ARMOR             = "armor";
-        public static final String COLUMN_IS_COLLECTIBLE    = "is_collectible";
+
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
                 .appendPath(PATH_CARD)
@@ -73,6 +69,38 @@ public class CardContract {
             else
                 return 0;
         }*/
+
+    }
+    public static final class CardInfoEntry implements BaseColumns{
+        public static final String TABLE_NAME               = "CardInfoEntry";
+        public static final String COLUMN_ID                = "id";
+        public static final String COLUMN_TEXT              = "text";
+        public static final String COLUMN_COST              = "cost";
+        public static final String COLUMN_HEALTH            = "health";
+        public static final String COLUMN_ATTACK            = "attack";
+        public static final String COLUMN_DURABILITY        = "durability";
+        public static final String COLUMN_ARMOR             = "armor";
+        public static final String COLUMN_IS_COLLECTIBLE    = "is_collectible";
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_INFO)
+                .build();
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + PATH_INFO;
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+                + "/" + CONTENT_AUTHORITY + "/" + PATH_INFO;
+
+        public static Uri buildCardUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+        // Method for building a Location and Date URI (Type 3)
+        public static Uri buildWeatherLocationWithDate(String locationSetting, long date) {
+            return CONTENT_URI.buildUpon()
+                    .appendPath(locationSetting)
+                    .appendPath(Long.toString(date))
+                    .build();
+        }
+
 
     }
 

@@ -29,18 +29,23 @@ public class CardDBHelper extends SQLiteOpenHelper
                 CardContract.CardEntry.COLUMN_NAME              + " TEXT , " +
                 CardContract.CardEntry.COLUMN_CARD_CLASS        + " TEXT , " +
                 CardContract.CardEntry.COLUMN_IMG_URL           + " TEXT , " +
-                CardContract.CardEntry.COLUMN_TEXT              + " TEXT , " +
-                CardContract.CardEntry.COLUMN_COST              + " INTEGER , " +
-                CardContract.CardEntry.COLUMN_HEALTH            + " INTEGER , " +
-                CardContract.CardEntry.COLUMN_ATTACK            + " INTEGER , " +
-                CardContract.CardEntry.COLUMN_DURABILITY        + " INTEGER , " +
-                CardContract.CardEntry.COLUMN_ARMOR             + " INTEGER , " +
-                CardContract.CardEntry.COLUMN_IS_COLLECTIBLE    + " BLOB  " +
-                " );";
-        //final String SQL_CREATE_WEATHER_TABLE = "CREATE TABLE " ...
+                " FOREIGN KEY (" + CardContract.CardEntry.COLUMN_InfoID + ") REFERENCES " +
+                CardContract.CardInfoEntry.TABLE_NAME + " (" + CardContract.CardInfoEntry.COLUMN_ID + ") "+ ");";
+
+
+        final String SQL_CREATE_INFO_TABLE = "CREATE TABLE " + CardContract.CardEntry.TABLE_NAME + " (" +
+
+                CardContract.CardInfoEntry.COLUMN_ID                + " INTEGER PRIMARY KEY," +
+                CardContract.CardInfoEntry.COLUMN_TEXT              + " TEXT , " +
+                CardContract.CardInfoEntry.COLUMN_COST              + " INTEGER , " +
+                CardContract.CardInfoEntry.COLUMN_HEALTH            + " INTEGER , " +
+                CardContract.CardInfoEntry.COLUMN_ATTACK            + " INTEGER , " +
+                CardContract.CardInfoEntry.COLUMN_DURABILITY        + " INTEGER , " +
+                CardContract.CardInfoEntry.COLUMN_ARMOR             + " INTEGER , " +
+                CardContract.CardInfoEntry.COLUMN_IS_COLLECTIBLE    + " BLOB  " + " );";
 
         db.execSQL(SQL_CREATE_CARD_TABLE);
-        //db.execSQL(SQL_CREATE_WEATHER_TABLE);
+        db.execSQL(SQL_CREATE_INFO_TABLE);
 
     }
 
@@ -48,7 +53,7 @@ public class CardDBHelper extends SQLiteOpenHelper
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL("DROP TABLE IF EXISTS " + CardContract.CardEntry.TABLE_NAME);
-        //db.execSQL("DROP TABLE IF EXISTS " + CardContract.OtherEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CardContract.CardInfoEntry.TABLE_NAME);
 
         onCreate(db);
 
