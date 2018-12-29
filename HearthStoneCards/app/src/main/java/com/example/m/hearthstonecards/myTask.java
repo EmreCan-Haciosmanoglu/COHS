@@ -77,7 +77,7 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
                 +(Durability.equals("")   ?"":("durability="+Durability+"&"))
                 +(Price.equals("")        ?"":("attack="+Price+"&"))
                 +(Health.equals("")       ?"":("health="+Health+"&"))
-                +(Collectible             ?"":("collectible=1&"))
+                //+(Collectible             ?"":("collectible=1&"))
                 +(Locale);
         /*
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);

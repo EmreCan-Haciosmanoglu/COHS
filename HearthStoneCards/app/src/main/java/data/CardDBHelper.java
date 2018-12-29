@@ -24,6 +24,7 @@ public class CardDBHelper extends SQLiteOpenHelper
     {
         final String SQL_CREATE_CARD_TABLE = "CREATE TABLE " + CardContract.CardEntry.TABLE_NAME + " (" +
                 CardContract.CardEntry.COLUMN_ID                + " INTEGER PRIMARY KEY," +
+                CardContract.CardEntry.COLUMN_InfoID            + " INTEGER , " +
                 CardContract.CardEntry.COLUMN_TYPE              + " TEXT , " +
                 CardContract.CardEntry.COLUMN_RARITY            + " TEXT , " +
                 CardContract.CardEntry.COLUMN_NAME              + " TEXT , " +

@@ -11,20 +11,6 @@ import android.net.Uri;
 public class CardProvider extends ContentProvider
 {
 
-    private static final SQLiteQueryBuilder qBuilder;
-    static{
-        qBuilder = new SQLiteQueryBuilder();
-        qBuilder.setTables(
-                CardContract.CardEntry.TABLE_NAME + " INNER JOIN " +
-                        CardContract.CardInfoEntry.TABLE_NAME +
-                        " ON " + CardContract.CardEntry.TABLE_NAME +
-                        "." + CardContract.CardEntry.COLUMN_LOC_KEY +
-                        " = " + CardContract.CardInfoEntry.TABLE_NAME +
-                        "." + CardContract.CardInfoEntry._ID);
-    }
-
-
-
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private CardDBHelper mOpenHelper;
 
