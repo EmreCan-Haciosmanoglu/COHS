@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -191,7 +192,24 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
     }
 
     public long addCard(Card card){
+
+        String[] projectedColumns = {CardContract.CardEntry._ID};
+        String selectedString = CardContract.CardEntry.COLUMN_ID + "=?";
+        String[] selectionArgs = {CardContract.CardEntry.COLUMN_ID};
+        Cursor locationCursor;
         long locationId;
+        locationCursor = mResolver.query(CardContract.CardEntry.CONTENT_URI,
+                projectedColumns,
+                selectedString,
+                selectionArgs,
+                null);
+
+
+        if (locationCursor.moveToFirst()){
+            int locationIdIndex = locationCursor.getColumnIndex(CardContract.CardEntry._ID);
+            locationId = locationCursor.getLong(locationIdIndex);
+        }
+        else{
         Uri insertedUri;
         ContentValues cardValues = new ContentValues();
 
@@ -206,26 +224,45 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
 
         insertedUri = mResolver.insert(CardContract.CardEntry.CONTENT_URI, cardValues);
         locationId = ContentUris.parseId(insertedUri);
+        }
         return locationId;
     }
 
     public long addInfo(Card card){
+
+        String[] projectedColumns = {CardContract.CardInfoEntry._ID};
+        String selectedString = CardContract.CardInfoEntry.COLUMN_ID + "=?";
+        String[] selectionArgs = {CardContract.CardInfoEntry.COLUMN_ID};
+        Cursor locationCursor;
         long locationId;
-        Uri insertedUri;
-        ContentValues infoValues = new ContentValues();
-
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_ID , card.getID());
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_TEXT , card.getText());
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_COST , card.getCost());
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_HEALTH , card.getHealth());
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_ATTACK , card.getAttack());
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_DURABILITY , card.getDurability());
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_ARMOR , card.getArmor());
-        infoValues.put(CardContract.CardInfoEntry.COLUMN_IS_COLLECTIBLE , card.isCollectible());
+        locationCursor = mResolver.query(CardContract.CardInfoEntry.CONTENT_URI,
+                projectedColumns,
+                selectedString,
+                selectionArgs,
+                null);
 
 
-        insertedUri = mResolver.insert(CardContract.CardEntry.CONTENT_URI, infoValues);
-        locationId = ContentUris.parseId(insertedUri);
+        if (locationCursor.moveToFirst()){
+            int locationIdIndex = locationCursor.getColumnIndex(CardContract.CardInfoEntry._ID);
+            locationId = locationCursor.getLong(locationIdIndex);
+        }
+        else {
+            Uri insertedUri;
+            ContentValues infoValues = new ContentValues();
+
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_ID, card.getID());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_TEXT, card.getText());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_COST, card.getCost());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_HEALTH, card.getHealth());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_ATTACK, card.getAttack());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_DURABILITY, card.getDurability());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_ARMOR, card.getArmor());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_IS_COLLECTIBLE, card.isCollectible());
+
+
+            insertedUri = mResolver.insert(CardContract.CardInfoEntry.CONTENT_URI, infoValues);
+            locationId = ContentUris.parseId(insertedUri);
+        }
         return locationId;
     }
 

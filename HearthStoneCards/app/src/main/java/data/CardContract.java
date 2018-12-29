@@ -89,7 +89,7 @@ public class CardContract {
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
                 + "/" + CONTENT_AUTHORITY + "/" + PATH_INFO;
 
-        public static Uri buildCardUri(long id) {
+        public static Uri buildCardInfoUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
         // Method for building a Location and Date URI (Type 3)

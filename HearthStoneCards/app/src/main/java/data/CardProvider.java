@@ -7,11 +7,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-public class CardProvider extends ContentProvider {
+public class CardProvider extends ContentProvider
+{
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private CardDBHelper mOpenHelper;
 
+    public static final int CARD = 100;
+    public static final int WEATHER_WITH_LOCATION = 101;
+    public static final int WEATHER_WITH_LOCATION_AND_DATE = 102;
+    public static final int CARDINFO = 300;
+
+
     public CardProvider() {
+    }
+
+    public static UriMatcher buildUriMatcher()
+    {
+        UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        String authority = CardContract.CONTENT_AUTHORITY;
+        matcher.addURI(authority,CardContract.PATH_CARD, CARD);
+        matcher.addURI(authority,CardContract.PATH_INFO, CARDINFO);
+        return matcher;
     }
 
     @Override
@@ -33,10 +49,19 @@ public class CardProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         Uri returnUri;
         switch(match){
-            case LOCATION: {
-                long _id = db.insert(LocationEntry.TABLE_NAME, null, values);
+            case CARD: {
+                long _id = db.insert(CardContract.CardEntry.TABLE_NAME, null, values);
                 if (_id > 0)
-                    returnUri = LocationEntry.buildLocationUri(_id);
+                    returnUri = CardContract.CardEntry.buildCardUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into" + uri);
+                break;
+            }
+            case CARDINFO:
+            {
+                long _id = db.insert(CardContract.CardInfoEntry.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = CardContract.CardInfoEntry.buildCardInfoUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into" + uri);
                 break;
