@@ -165,6 +165,8 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
                         c.setArmor(card.getInt(Helper.DATA_CARD_ARMOR));
 
                     Card.cards.add(c);
+                    long locationId = addCard(c);
+                    long locationId2 = addInfo(c);
 /*
                     if (type.equals(Helper.CARD_TYPES[3])) {
 

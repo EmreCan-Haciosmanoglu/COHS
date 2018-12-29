@@ -83,8 +83,35 @@ public class CardProvider extends ContentProvider
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        final int match = sUriMatcher.match(uri);
+        Cursor retCursor;
+        switch(match){
+            case CARD: {
+                retCursor = db.query(CardContract.CardEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+            } break;
+            case CARDINFO: {
+                retCursor = db.query(CardContract.CardInfoEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+            } break;
+            default:{
+                throw new UnsupportedOperationException("Unknown uri:" + uri);
+            }
+        }
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return retCursor;
+
     }
 
     @Override
