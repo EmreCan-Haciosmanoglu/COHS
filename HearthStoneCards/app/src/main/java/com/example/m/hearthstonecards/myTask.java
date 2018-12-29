@@ -1,7 +1,11 @@
 package com.example.m.hearthstonecards;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.util.Log;
@@ -15,7 +19,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import data.CardContract;
+
 public class myTask extends AsyncTask<Void ,Void,Void> {
+    ContentResolver mResolver;
     public String URL = "";
     public Context mContext;
     public String[] mValues;
@@ -24,7 +31,7 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
     public myTask(Context context,String[] values,Boolean Switch){
         mContext=context;
         mValues=values;
-        mSwitch=Switch;
+        mResolver = mContext.getContentResolver();
     }
 
     @Override
@@ -182,4 +189,25 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
         Log.v("Sule",String.valueOf(Card.cards.size()));
 
     }
+
+    public long addLocation(Card card){
+        long locationId;
+        Uri insertedUri;
+        ContentValues locationValues = new ContentValues();
+
+        locationValues.put(CardContract.CardEntry.COLUMN_ARMOR , card.getArmor());
+        //   .
+        //   .
+        //   .
+        //
+        //
+        //
+
+
+
+        insertedUri = mResolver.insert(CardContract.CardEntry.CONTENT_URI, locationValues);
+        locationId = ContentUris.parseId(insertedUri);
+        return locationId;
+    }
+
 }
