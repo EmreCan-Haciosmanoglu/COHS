@@ -28,6 +28,11 @@
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar" />
+        <service
+            android:name=".MyIntentService"
+            android:exported="false">
+
+        </service>
 
         <service
             android:name=".WaterReminderFirebaseJobService"
