@@ -2,13 +2,18 @@ package com.example.m.hearthstonecards;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,14 +24,23 @@ import android.widget.Switch;
 public class Selection extends AppCompatActivity {
     private static Context mContext;
     private static ProgressDialog progressDialog;
+    private static ProgressDialog progressDialog2;
     static String[] values=new String[4];
     static boolean Switch;
+    NetworkChangeReceiver mNetworkReceiver;
+    IntentFilter mIntentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        registerReceiver(mNetworkReceiver, mIntentFilter);
+        mNetworkReceiver=new NetworkChangeReceiver();
+
         mContext=this;
         progressDialog=new ProgressDialog(mContext);
+        progressDialog2=new ProgressDialog(mContext);
         setContentView(R.layout.activity_selection);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,8 +65,8 @@ public class Selection extends AppCompatActivity {
                 values[3]=health.getText().toString();
 
 
-              //  myTask myTask=new myTask(mContext,values,collectible.isChecked());
-               // myTask.execute();
+                //  myTask myTask=new myTask(mContext,values,collectible.isChecked());
+                // myTask.execute();
                 Intent myService=new Intent(Selection.this,MyIntentService.class);
                 mContext.startService(myService);
 
@@ -75,8 +89,18 @@ public class Selection extends AppCompatActivity {
         progressDialog.show();
 
     }
+    public static void wifiProgressDialog(){
+
+        progressDialog2.setTitle("No Connection");
+        progressDialog2.setMessage("Waiting Connection");
+        progressDialog2.show();
+
+    }
     public static void dismissProgressDialog(){
         progressDialog.dismiss();
+    }
+    public static void dismissProgressDialog2(){
+        progressDialog2.dismiss();
     }
 
     @Override
@@ -99,5 +123,39 @@ public class Selection extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mNetworkReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mNetworkReceiver, mIntentFilter);
+
+    }
+
+    private class NetworkChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
+                NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+                if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    Log.v("Sule","connected");
+                    dismissProgressDialog2();
+
+                } else {
+                    Log.v("Sule","Başına connected");
+                    wifiProgressDialog();
+                }
+            }
+
+
+
+        }
+
     }
 }
