@@ -19,8 +19,7 @@ import android.widget.Switch;
 public class Selection extends AppCompatActivity {
     private static Context mContext;
     private static ProgressDialog progressDialog;
-    static String[] values=new String[4];
-    static boolean Switch;
+    String[] values=new String[4];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +34,6 @@ public class Selection extends AppCompatActivity {
         final EditText durabilty=(EditText)findViewById(R.id.durabilityEdit);
         final EditText health=(EditText)findViewById(R.id.heathEdit);
         final Switch collectible=(Switch)findViewById(R.id.collectibleSwitch);
-        Switch=collectible.isChecked();
-
 
 
 
@@ -44,17 +41,14 @@ public class Selection extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProgressDialog();
                 values[0]=attack.getText().toString();
                 values[1]=durabilty.getText().toString();
                 values[2]=price.getText().toString();
                 values[3]=health.getText().toString();
 
 
-              //  myTask myTask=new myTask(mContext,values,collectible.isChecked());
-               // myTask.execute();
-                Intent myService=new Intent(Selection.this,MyIntentService.class);
-                mContext.startService(myService);
+                myTask myTask=new myTask(mContext,values,collectible.isChecked());
+                myTask.execute();
 
             }
         });

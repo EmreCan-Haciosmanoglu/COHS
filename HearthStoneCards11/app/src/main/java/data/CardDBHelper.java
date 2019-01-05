@@ -22,9 +22,9 @@ public class CardDBHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        final String SQL_CREATE_CARD_TABLE = "CREATE TABLE " + CardContract.CardEntry.TABLE_NAME + " (" +
-                CardContract.CardEntry.COLUMN_ID                + " INTEGER PRIMARY KEY," +
-                CardContract.CardEntry.COLUMN_InfoID            + " INTEGER , " +
+        final String SQL_CREATE_CARD_TABLE = "CREATE TABLE IF NOT EXISTS " + CardContract.CardEntry.TABLE_NAME + " (" +
+                CardContract.CardEntry.COLUMN_ID                + " TEXT PRIMARY KEY," +
+                CardContract.CardEntry.COLUMN_InfoID            + " TEXT , " +
                 CardContract.CardEntry.COLUMN_TYPE              + " TEXT , " +
                 CardContract.CardEntry.COLUMN_RARITY            + " TEXT , " +
                 CardContract.CardEntry.COLUMN_NAME              + " TEXT , " +
@@ -34,9 +34,9 @@ public class CardDBHelper extends SQLiteOpenHelper
                 CardContract.CardInfoEntry.TABLE_NAME + " (" + CardContract.CardInfoEntry.COLUMN_ID + ") "+ ");";
 
 
-        final String SQL_CREATE_INFO_TABLE = "CREATE TABLE " + CardContract.CardEntry.TABLE_NAME + " (" +
+        final String SQL_CREATE_INFO_TABLE = "CREATE TABLE IF NOT EXISTS " + CardContract.CardInfoEntry.TABLE_NAME + " (" +
 
-                CardContract.CardInfoEntry.COLUMN_ID                + " INTEGER PRIMARY KEY," +
+                CardContract.CardInfoEntry.COLUMN_ID                + " TEXT PRIMARY KEY," +
                 CardContract.CardInfoEntry.COLUMN_TEXT              + " TEXT , " +
                 CardContract.CardInfoEntry.COLUMN_COST              + " INTEGER , " +
                 CardContract.CardInfoEntry.COLUMN_HEALTH            + " INTEGER , " +

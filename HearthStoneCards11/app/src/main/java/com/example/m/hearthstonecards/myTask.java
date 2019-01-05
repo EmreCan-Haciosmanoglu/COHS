@@ -1,7 +1,12 @@
 package com.example.m.hearthstonecards;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.util.Log;
@@ -15,7 +20,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import data.CardContract;
+
 public class myTask extends AsyncTask<Void ,Void,Void> {
+    ContentResolver mResolver;
     public String URL = "";
     public Context mContext;
     public String[] mValues;
@@ -24,7 +32,7 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
     public myTask(Context context,String[] values,Boolean Switch){
         mContext=context;
         mValues=values;
-        mSwitch=Switch;
+        mResolver = mContext.getContentResolver();
     }
 
     @Override
@@ -69,7 +77,7 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
                 +(Durability.equals("")   ?"":("durability="+Durability+"&"))
                 +(Price.equals("")        ?"":("attack="+Price+"&"))
                 +(Health.equals("")       ?"":("health="+Health+"&"))
-                +(Collectible             ?"":("collectible=1&"))
+                //+(Collectible             ?"":("collectible=1&"))
                 +(Locale);
         /*
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -157,6 +165,8 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
                         c.setArmor(card.getInt(Helper.DATA_CARD_ARMOR));
 
                     Card.cards.add(c);
+                    long locationId = addCard(c);
+                    long locationId2 = addInfo(c);
 /*
                     if (type.equals(Helper.CARD_TYPES[3])) {
 
@@ -172,7 +182,6 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
         } catch (Exception e) {
             Log.v("ERROR", e.getMessage());
         }
-        Log.v("Sule","biti");
     }
 
     @Override
@@ -183,4 +192,80 @@ public class myTask extends AsyncTask<Void ,Void,Void> {
         Log.v("Sule",String.valueOf(Card.cards.size()));
 
     }
+
+    public long addCard(Card card){
+
+        String[] projectedColumns = {CardContract.CardEntry.COLUMN_ID};
+        String selectedString = CardContract.CardEntry.COLUMN_ID + "=?";
+        String[] selectionArgs = {CardContract.CardEntry.COLUMN_ID};
+        Cursor locationCursor;
+        long locationId;
+        locationCursor = mResolver.query(CardContract.CardEntry.CONTENT_URI,
+                projectedColumns,
+                selectedString,
+                selectionArgs,
+                null);
+
+
+        if (locationCursor.moveToFirst()){
+            int locationIdIndex = locationCursor.getColumnIndex(CardContract.CardEntry.COLUMN_ID);
+            locationId = locationCursor.getLong(locationIdIndex);
+        }
+        else{
+        Uri insertedUri;
+        ContentValues cardValues = new ContentValues();
+
+        cardValues.put(CardContract.CardEntry.COLUMN_ID , card.getID());
+        cardValues.put(CardContract.CardEntry.COLUMN_InfoID , card.getID());
+        cardValues.put(CardContract.CardEntry.COLUMN_TYPE , card.getType());
+        cardValues.put(CardContract.CardEntry.COLUMN_RARITY , card.getRarity());
+        cardValues.put(CardContract.CardEntry.COLUMN_NAME , card.getName());
+        cardValues.put(CardContract.CardEntry.COLUMN_CARD_CLASS , card.getCardClass());
+        cardValues.put(CardContract.CardEntry.COLUMN_IMG_URL , card.getImgURL());
+
+
+        insertedUri = mResolver.insert(CardContract.CardEntry.CONTENT_URI, cardValues);
+        locationId = ContentUris.parseId(insertedUri);
+        }
+        return locationId;
+    }
+
+    public long addInfo(Card card){
+
+        String[] projectedColumns = {CardContract.CardInfoEntry.COLUMN_ID};
+        String selectedString = CardContract.CardInfoEntry.COLUMN_ID + "=?";
+        String[] selectionArgs = {CardContract.CardInfoEntry.COLUMN_ID};
+        Cursor locationCursor;
+        long locationId;
+        locationCursor = mResolver.query(CardContract.CardInfoEntry.CONTENT_URI,
+                projectedColumns,
+                selectedString,
+                selectionArgs,
+                null);
+
+
+        if (locationCursor.moveToFirst()){
+            int locationIdIndex = locationCursor.getColumnIndex(CardContract.CardInfoEntry.COLUMN_ID);
+            locationId = locationCursor.getLong(locationIdIndex);
+        }
+        else {
+            Uri insertedUri;
+            ContentValues infoValues = new ContentValues();
+
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_ID, card.getID());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_TEXT, card.getText());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_COST, card.getCost());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_HEALTH, card.getHealth());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_ATTACK, card.getAttack());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_DURABILITY, card.getDurability());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_ARMOR, card.getArmor());
+            infoValues.put(CardContract.CardInfoEntry.COLUMN_IS_COLLECTIBLE, card.isCollectible());
+
+
+            insertedUri = mResolver.insert(CardContract.CardInfoEntry.CONTENT_URI, infoValues);
+            locationId = ContentUris.parseId(insertedUri);
+        }
+        return locationId;
+    }
+
 }

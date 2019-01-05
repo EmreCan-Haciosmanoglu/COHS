@@ -29,6 +29,12 @@
             android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <provider
+            android:name="data.CardProvider"
+            android:authorities="com.example.m.hearthstonecards"
+            android:enabled="true"
+            android:exported="true" />
+
         <service
             android:name=".MyIntentService"
             android:exported="false"></service>
