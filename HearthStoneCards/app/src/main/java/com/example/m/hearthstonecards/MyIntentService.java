@@ -3,12 +3,15 @@ package com.example.m.hearthstonecards;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
-import android.os.Bundle;
+
 import android.util.Log;
+
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -76,19 +79,10 @@ public class MyIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        String action = intent.getAction();
+        ReminderTasks.executeTask(this, action);
 
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
-            }
-        }
+
         setURL();
         try
         {

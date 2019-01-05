@@ -37,6 +37,7 @@ public class Selection extends AppCompatActivity {
         mIntentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         registerReceiver(mNetworkReceiver, mIntentFilter);
         mNetworkReceiver=new NetworkChangeReceiver();
+        ReminderUtilities.scheduleChargingReminder(this);
 
         mContext=this;
         progressDialog=new ProgressDialog(mContext);
