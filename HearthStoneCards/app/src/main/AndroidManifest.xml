@@ -44,6 +44,9 @@
         <receiver
             android:name=".AlarmReceiver">
         </receiver>
+        <receiver
+            android:name=".AlarmReceiver2">
+        </receiver>
     </application>
 
 </manifest>

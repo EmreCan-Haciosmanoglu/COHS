@@ -45,6 +45,8 @@ public class Selection extends AppCompatActivity   {
         mNetworkReceiver=new NetworkChangeReceiver();
         ReminderUtilities.scheduleChargingReminder(this);
 
+
+
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
@@ -54,6 +56,16 @@ public class Selection extends AppCompatActivity   {
         PendingIntent pi = PendingIntent.getBroadcast(this, 12345, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +
                 startTime, 60*1000, pi);
+
+        Intent intentAlarm2 = new Intent(this, AlarmReceiver2.class);
+
+        AlarmManager alarmManager2 = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        //set the notification to repeat every fifteen minutes
+        long startTime2 = 1*60*250; // 2 min
+        // set unique id to the pending item, so we can call it when needed
+        PendingIntent pi2 = PendingIntent.getBroadcast(this, 12345, intentAlarm2, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager2.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +
+                startTime2, 60*1000, pi2);
 
 
 
