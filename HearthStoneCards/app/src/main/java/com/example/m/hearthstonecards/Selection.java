@@ -53,7 +53,7 @@ public class Selection extends AppCompatActivity   {
         // set unique id to the pending item, so we can call it when needed
         PendingIntent pi = PendingIntent.getBroadcast(this, 12345, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +
-                startTime, 60*250, pi);
+                startTime, 60*1000, pi);
 
 
 

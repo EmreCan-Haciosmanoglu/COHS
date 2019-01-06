@@ -50,12 +50,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         mBuilder = new NotificationCompat.Builder(mContext);
         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        mBuilder.setContentTitle("Hey!! These Week's Events!!")
-                .setContentText("You should check these week's popular events :)")
+        mBuilder.setContentTitle("Hey Lets Search cards")
+                .setContentText("Go Go Go")
                 .setAutoCancel(false)
                 .setContentIntent(resultPendingIntent)
-                .addAction(R.drawable.ic_drink_notification, "Show me!", firstone)
-                .addAction(R.drawable.ic_dashboard_black_24dp, "Search more..", secondone);
+                .addAction(R.drawable.ic_drink_notification, "Go to Recycler", firstone)
+                .addAction(R.drawable.ic_dashboard_black_24dp, "Search", secondone);
 
 
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
