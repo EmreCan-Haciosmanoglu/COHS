@@ -56,7 +56,7 @@ public class AlarmReceiver2 extends BroadcastReceiver {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel notificationChannel = new NotificationChannel("1001", "NOTIFICATION_CHANNEL_NAME2", importance);
+            NotificationChannel notificationChannel = new NotificationChannel("1002", "NOTIFICATION_CHANNEL_NAME3", importance);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.enableVibration(true);

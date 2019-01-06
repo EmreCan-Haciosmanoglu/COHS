@@ -63,7 +63,7 @@ public class Selection extends AppCompatActivity   {
         //set the notification to repeat every fifteen minutes
         long startTime2 = 1*60*250; // 2 min
         // set unique id to the pending item, so we can call it when needed
-        PendingIntent pi2 = PendingIntent.getBroadcast(this, 12345, intentAlarm2, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi2 = PendingIntent.getBroadcast(this, 12346, intentAlarm2, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager2.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +
                 startTime2, 60*1000, pi2);
 
