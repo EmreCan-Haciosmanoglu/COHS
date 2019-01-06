@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class Selection extends AppCompatActivity {
     private static Context mContext;
@@ -97,6 +98,12 @@ public class Selection extends AppCompatActivity {
         progressDialog2.show();
 
     }
+    public void incrementWater(View view) {
+
+        Intent incrementWaterCountIntent = new Intent(this, MyIntentService.class);
+        incrementWaterCountIntent.setAction(ReminderTasks.ACTION_INCREMENT_WATER_COUNT);
+        startService(incrementWaterCountIntent);
+    }
     public static void dismissProgressDialog(){
         progressDialog.dismiss();
     }
@@ -137,6 +144,10 @@ public class Selection extends AppCompatActivity {
         registerReceiver(mNetworkReceiver, mIntentFilter);
 
     }
+    public void testNotification(View view) {
+        NotificationUtils.remindUserBecauseCharging(this);
+    }
+
 
     private class NetworkChangeReceiver extends BroadcastReceiver {
         @Override
