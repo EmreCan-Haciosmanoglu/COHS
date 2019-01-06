@@ -1,6 +1,8 @@
 package com.example.m.hearthstonecards;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -42,10 +45,20 @@ public class Selection extends AppCompatActivity   {
         mNetworkReceiver=new NetworkChangeReceiver();
         ReminderUtilities.scheduleChargingReminder(this);
 
+        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+        System.out.println("calling Alarm receiver ");
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        //set the notification to repeat every fifteen minutes
+        long startTime = 1*60*1000; // 2 min
+        // set unique id to the pending item, so we can call it when needed
+        PendingIntent pi = PendingIntent.getBroadcast(this, 5, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +
+                startTime, 60*1000, pi);
 
 
-        /** Setup the shared preference listener **/
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+
 
 
         mContext=this;
