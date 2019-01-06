@@ -6,9 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +24,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class Selection extends AppCompatActivity {
+public class Selection extends AppCompatActivity   {
     private static Context mContext;
     private static ProgressDialog progressDialog;
     private static ProgressDialog progressDialog2;
@@ -39,6 +41,12 @@ public class Selection extends AppCompatActivity {
         registerReceiver(mNetworkReceiver, mIntentFilter);
         mNetworkReceiver=new NetworkChangeReceiver();
         ReminderUtilities.scheduleChargingReminder(this);
+
+
+
+        /** Setup the shared preference listener **/
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 
         mContext=this;
         progressDialog=new ProgressDialog(mContext);
@@ -98,6 +106,7 @@ public class Selection extends AppCompatActivity {
         progressDialog2.show();
 
     }
+
     public void incrementWater(View view) {
 
         Intent incrementWaterCountIntent = new Intent(this, MyIntentService.class);
@@ -144,9 +153,18 @@ public class Selection extends AppCompatActivity {
         registerReceiver(mNetworkReceiver, mIntentFilter);
 
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /** Cleanup the shared preference listener **/
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    }
     public void testNotification(View view) {
         NotificationUtils.remindUserBecauseCharging(this);
     }
+
+
 
 
     private class NetworkChangeReceiver extends BroadcastReceiver {
