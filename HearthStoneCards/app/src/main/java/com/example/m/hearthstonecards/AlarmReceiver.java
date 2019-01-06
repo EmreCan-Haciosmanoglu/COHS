@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -36,9 +37,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext,
                 0 /* Request code */, resultIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent first = new Intent(mContext, RecyclerActivity.class);
-        first.putExtra("NotificationMessage", "second");
+        Intent first = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.tencent.ig&hl=tr"));
         first.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent firstone = PendingIntent.getActivity(mContext, 7, first, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -50,12 +49,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         mBuilder = new NotificationCompat.Builder(mContext);
         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        mBuilder.setContentTitle("Hey Lets Search cards")
-                .setContentText("Go Go Go")
+        mBuilder.setContentTitle("PUBG")
+                .setContentText("You can download this game")
                 .setAutoCancel(false)
                 .setContentIntent(resultPendingIntent)
-                .addAction(R.drawable.ic_drink_notification, "Go to Recycler", firstone)
-                .addAction(R.drawable.ic_dashboard_black_24dp, "Search", secondone);
+                .addAction(R.drawable.ic_drink_notification, "Play Store", firstone)
+                .addAction(R.drawable.ic_dashboard_black_24dp, "Search Card", secondone);
 
 
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
